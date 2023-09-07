@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# Get the C file name from the variable $CFILE
+cfile=$CFILE
+
+# Create the output file
+output_file="c"
+
+# Run the preprocessor
+gcc -E $cfile -o $output_fil

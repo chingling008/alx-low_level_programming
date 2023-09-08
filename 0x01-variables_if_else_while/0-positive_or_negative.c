@@ -1,16 +1,17 @@
 #include <stdio.h>
-
+#include <limits.h>
+#include <stdlib.h>
 int main(void) {
- int n  = rand()
+  int n;
 
-    if(n > 0) {
-         printf("%d is postive\n", n);
-    } 
-    else if (n = 0) {
-       printf("%d is zero\n", n);
-    }
-   else if (n < 0) {
-       printf("%d is negative\n", n);
-    }
-    return 0;
+  n = rand() % INT_MAX; 
+  if (n > 0) {
+    printf("%d is positive\n", n);
+  } else if (n == 0) {
+    printf("%d is zero\n", n);
+  } else {
+    printf("%d is negative\n", n);
+  }
+
+  return 0;
 }

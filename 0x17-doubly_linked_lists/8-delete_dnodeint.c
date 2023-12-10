@@ -1,6 +1,5 @@
 #include "lists.h"
 
-
 /**
  * dlistint_len - returns the number of elements in a dlistint_t list
  * @h: head of doubly linked list
@@ -21,57 +20,54 @@ size_t dlistint_len(const dlistint_t *h)
 }
 
 
-
 /**
- * insert_dnodeint_at_index - inserts a new node at a given position
- * @h: head of linked list
- * @idx: index
- * @n: integer value of node
+ * delete_dnodeint_at_index -  deletes the node at index of a linked list
+ * @head: head of linked list
+ * @index: index of node to delete
  *
- * Return: address of new node, return NULL if fails
+ * Return: 1 if success, 0 if failure
  */
 
-
-dlistint_t *insert_dnodeint_at_index(dlistint_t **h, unsigned int idx, int n)
+int delete_dnodeint_at_index(dlistint_t **head, unsigned int index)
 {
-	dlistint_t *new, *temp;
+	dlistint_t *temp;
 	size_t length;
 	unsigned int i = 0;
 
-	if (h == NULL)
-		return (NULL);
-	if (idx == 0)
-		return (add_dnodeint(h, n));
+	if (head == NULL || *head == NULL)
+		return (-1);
 
-	length = dlistint_len(*h);
-	if (idx == length - 1)
-		return (add_dnodeint_end(h, n));
-
-	new = malloc(sizeof(dlistint_t));
-	if (new == NULL)
-		return (NULL);
-	new->n = n;
-	if (*h == NULL)
+	length = dlistint_len(*head);
+	if (index >= length)
+		return (-1);
+	temp = *head;
+	if (index == 0)
 	{
-		new->prev = NULL;
-		new->next = NULL;
-		*h = new;
-		return (new);
+		*head = temp->next;
+		if (*head != NULL)
+			(*head)->prev = NULL;
+		free(temp);
+		return (1);
 	}
-	temp = *h;
+	if (index == (length - 1))
+	{
+		while (temp->next)
+		{
+			temp = temp->next;
+		}
+		free(temp);
+	}
 	while (temp)
 	{
-		if (i == idx)
+		if (i == index)
 		{
-			new->next = temp;
-			new->prev = temp->prev;
-			temp->prev->next = new;
-			temp->prev = new;
-			return (new);
+			temp->next->prev = temp->prev;
+			temp->prev->next = temp->next;
+			free(temp);
+			return (1);
 		}
 		temp = temp->next;
 		i++;
 	}
-	free(new);
-	return (NULL);
+	return (-1);
 }
